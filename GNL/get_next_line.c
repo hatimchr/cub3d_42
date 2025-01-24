@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:42:37 by hchair            #+#    #+#             */
-/*   Updated: 2024/04/20 00:54:58 by hchair           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:10:15 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int main()
-{
-    int fd;
-    int i = 0;
-    char    *file = "hello.txt";
+// int main()
+// {
+//     int fd;
+//     int i = 0;
+//     char    *file = "hello.txt";
 
-    fd = open(file,  O_RDONLY | O_CREAT);
-    //printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd));
+//     fd = open(file,  O_RDONLY | O_CREAT);
+//     //printf("%s", get_next_line(fd));
+//     printf("%s", get_next_line(fd));
 
-}
+// }
