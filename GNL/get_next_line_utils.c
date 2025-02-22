@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 14:49:24 by hchair            #+#    #+#             */
-/*   Updated: 2024/04/19 22:22:13 by hchair           ###   ########.fr       */
+/*   Updated: 2025/02/17 17:10:48 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size)
 
 	if (!src)
 		return (0);
+	// size--;
 	src_len = ft_strlen(src);
 	if (!size)
 		return (src_len);

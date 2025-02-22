@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:25:37 by hchair            #+#    #+#             */
-/*   Updated: 2025/01/23 17:12:16 by hchair           ###   ########.fr       */
+/*   Updated: 2025/02/15 22:15:48 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include "GNL/get_next_line.h"
 // #include <mlx42.h>
