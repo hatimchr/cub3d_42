@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:25:37 by hchair            #+#    #+#             */
-/*   Updated: 2025/02/15 22:15:48 by hchair           ###   ########.fr       */
+/*   Updated: 2025/02/23 04:25:38 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,20 @@ typedef struct  s_map
     int         map_x;
     int         map_y;
 }               t_map;
+
+typedef struct  s_info
+{
+    int 	pl_x;
+	int		pl;
+	int		elm;
+    int		pl_y;
+    char	*no;
+    char    *so;
+    char    *we;
+    char    *ea;
+    char    *s;
+    int		f;
+    int     c;
+}            t_info;
 
 #endif

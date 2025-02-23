@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/02/22 18:28:13 by hchair           ###   ########.fr       */
+/*   Updated: 2025/02/24 00:20:52 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_name_map(char *argv)
 	}
 }
 
-int valid_directions(char *line)
+int valid_walls(char *line)
 {
     int i;
     
@@ -64,10 +64,17 @@ int main(int ac, char **av)
     char    *line;
     int     j;
     t_map   map;
+    t_info  info;
     
     fd = 0;
     map.map_x = 0;
     map.map_y = 0;
+    info.no = NULL;
+    info.we = NULL;
+    info.so = NULL;
+    info.ea = NULL;
+    info.pl = 0;
+    info.elm = 6;
     if (ac != 2)
     {
         printf("Error argument number\n");
@@ -90,11 +97,13 @@ int main(int ac, char **av)
         map.map_x++;
     }
     close(fd);   
+    // collect info
+    
     // print map
-    for (int i = 0; i < map.map_x; i++)
-    {
-        printf("%s", map.map[i]);
-    }
+    // for (int i = 0; i < map.map_x; i++)
+    // {
+    //     printf("%s", map.map[i]);
+    // }
     map.map[map.map_x] = NULL;
     // check map is valid 
     // Check first and last rows
@@ -120,7 +129,6 @@ int main(int ac, char **av)
     {
         if (map.map[j][0] != '1' || map.map[j][ft_strlen(map.map[j]) - 2] != '1')
         {
-            valid_directions(map.map[j]);
             printf("Error: Map is not surrounded by walls at [%d] [%ld]\n", j, ft_strlen(map.map[j]) - 1);
             return (1);
         }
@@ -132,14 +140,18 @@ int main(int ac, char **av)
         map.map_y = 0;
         while (map.map[map.map_x][map.map_y] != '\0')
         {
-            if (map.map[map.map_x][map.map_y] == '0')
+            if (map.map[map.map_x][map.map_y] == '0'
+                || map.map[map.map_x][map.map_y] == 'N'
+                || map.map[map.map_x][map.map_y] == 'S'
+                || map.map[map.map_x][map.map_y] == 'E'
+                || map.map[map.map_x][map.map_y] == 'W')
             {
                 if (map.map[map.map_x][map.map_y + 1] == ' ' 
                     || map.map[map.map_x][map.map_y - 1] == ' ' 
                     || map.map[map.map_x + 1][map.map_y] == ' ' 
                     || map.map[map.map_x - 1][map.map_y] == ' ')
                 {
-                    printf("Error: 0 is touching space at x: %d y:%d\n", map.map_x, map.map_y);
+                    printf("Error: element is touching space at x: %d y:%d\n", map.map_x, map.map_y);
                     return (1);
                 }
             }
