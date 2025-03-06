@@ -5,7 +5,7 @@ RM = rm -rf
 CUBE = cub3D
 PHILO_BONUS = philo_bonus
 
-MANDATORY = parsing.c GNL/get_next_line.c GNL/get_next_line_utils.c 
+MANDATORY = parsing.c GNL/get_next_line.c GNL/get_next_line_utils.c initializer.c
 CUB_OBJ = $(MANDATORY:.c=.o)
 
 all: $(CUBE)

@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:25:37 by hchair            #+#    #+#             */
-/*   Updated: 2025/02/23 04:25:38 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/06 15:04:18 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,19 @@ typedef struct  s_map
     char        **map;
     int         map_x;
     int         map_y;
+    int	    	elm;
+    int     	pl_x;
+    int	    	pl_y;
+    char    	player;
+    char    	*no;
+    char        *so;
+    char		*we;
+    char		*ea;
+    char      	*s;
+    int	    	*flr;
+    int			*ceal;
 }               t_map;
 
-typedef struct  s_info
-{
-    int 	pl_x;
-	int		pl;
-	int		elm;
-    int		pl_y;
-    char	*no;
-    char    *so;
-    char    *we;
-    char    *ea;
-    char    *s;
-    int		f;
-    int     c;
-}            t_info;
+void    init(t_map *map);
 
 #endif
