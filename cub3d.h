@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 21:25:37 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/06 15:04:18 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/07 16:38:31 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct  s_map
     char        *so;
     char		*we;
     char		*ea;
-    char      	*s;
     int	    	*flr;
     int			*ceal;
 }               t_map;

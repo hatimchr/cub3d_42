@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/06 16:27:23 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/07 16:35:19 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,46 +56,84 @@ int valid_walls(char *line)
     return (0);    
 }
 
-int main(int ac, char **av)
+int	not_map(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if ((line[i] == 'N' && line[i + 1] == 'O') || (line[i] == 'S' 
+				&& line[i + 1] == 'O') || (line[i] == 'W' && line[i + 1] == 'E')
+			|| (line[i] == 'E' && line[i + 1] == 'A'))
+			return (0);
+		else if (line[i] == 'F' || line[i] == 'C')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void    load_textures(t_map *map, char *line)
+{
+    int i;
+    
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (line[i] == 'N' && line[i + 1] == 'O')
+        {
+            map->no = ft_strdup(&line[i + 2]);
+            i += 2;
+        }
+        else if (line[i] == 'S' && line[i + 1] == 'O')
+        {
+            map->so = ft_strdup(&line[i + 2]);
+            i += 2;
+        }
+        else if (line[i] == 'W' && line[i + 1] == 'E')
+        {
+            map->we = ft_strdup(&line[i + 2]);
+            i += 2;
+        }
+        else if (line[i] == 'E' && line[i + 1] == 'A')
+        {
+            map->ea = ft_strdup(&line[i + 2]);
+            i += 2;
+        }
+    }
+}
+
+void    load_map(t_map *map, char *av)
 {
     int     fd;
     char    *line;
-    int     j;
-    t_map   *map;
     
-    fd = 0;
-    init(map);
-    if (ac != 2)
-    {
-        printf("Error argument number\n");
-        return (1);    
-    }
-    check_name_map(av[1]);
     fd = open(av[1], O_RDONLY);
     if (fd == -1)
     {
         printf("Error oppening file\n");
-        return (1);
+        return ;
     }
     line = get_next_line(fd);
-    map->map = (char **)malloc(sizeof(char *) * 100);
+    map->map = (char **)malloc(sizeof (t_map));
     while (line)
     {
+        if (not_map(line) == 0)
+            load_textures(map, line);
         map->map[map->map_x] = ft_strdup(line);
         free(line);
         line = get_next_line(fd);
         map->map_x++;
     }
-    close(fd);   
-    // collect info
-    
-    // print map
-    // for (int i = 0; i < map->map_x; i++)
-    // {
-    //     printf("%s", map->map[i]);
-    // }
     map->map[map->map_x] = NULL;
-    // check map is valid 
+    close(fd);
+}
+
+int    check_map(t_map *map)
+{
+    int     j;
+    
     // Check first and last rows
     for (j = 0; map->map[0][j] != '\0'; j++)
     {
@@ -114,7 +152,6 @@ int main(int ac, char **av)
             return (1);
         }
     }
-    // Check first and last columns
     for (j = 0; j < map->map_x; j++)
     {
         if (map->map[j][0] != '1' || map->map[j][ft_strlen(map->map[j]) - 2] != '1')
@@ -123,6 +160,28 @@ int main(int ac, char **av)
             return (1);
         }
     }
+    return (0);
+}
+
+int main(int ac, char **av)
+{
+    int     j;
+    t_map   *map;
+    
+    init(map);
+    if (ac != 2)
+    {
+        printf("Error argument number\n");
+        return (1);    
+    }
+    if (check_name_map(av[1]) == 0)
+    {
+        load_map(map, av[1]);
+        if (check_map(map) == 0)
+            return (1);
+    }
+    // check map is valid 
+    // Check first and last columns
     // check 0 is not touching spaces
     map->map_x = 0;
     while (map->map[map->map_x] != NULL)
