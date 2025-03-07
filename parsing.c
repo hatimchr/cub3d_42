@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/07 16:35:19 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/08 00:05:03 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int	check_name_map(char *argv)
 			j++;
 		}
 		if (ptr[j] == '\0' && argv[tmp] == '\0')
-			valid = 1; return (0);
+			valid = 1;
 	}
 	if (valid == 0)
-        return (printf("Error: Invalid map file\n"));
+        printf("Error: Invalid map file\n");
+    return (0);
 }
 
 int valid_walls(char *line)
@@ -74,6 +75,12 @@ int	not_map(char *line)
 	return (1);
 }
 
+void    skip_spaces(char *line, int *i)
+{
+    while (line[*i] == ' ' || line[*i] == '\t' || line[*i] == '\v')
+        (*i)++;
+}
+
 void    load_textures(t_map *map, char *line)
 {
     int i;
@@ -83,23 +90,51 @@ void    load_textures(t_map *map, char *line)
     {
         if (line[i] == 'N' && line[i + 1] == 'O')
         {
+            skip_spaces(line, &i + 2);
+            if ((map)->no != NULL)
+            {
+                printf("Error: Duplicate NO texture\n");
+                exit(1);
+            }
             map->no = ft_strdup(&line[i + 2]);
-            i += 2;
+            map->elm--;
+            return ;
         }
         else if (line[i] == 'S' && line[i + 1] == 'O')
         {
+            skip_spaces(line, &i + 2);
+            if ((map)->so != NULL)
+            {
+                printf("Error: Duplicate SO texture\n");
+                exit(1);
+            }
             map->so = ft_strdup(&line[i + 2]);
-            i += 2;
+            map->elm--;
+            return ;
         }
         else if (line[i] == 'W' && line[i + 1] == 'E')
         {
+            skip_spaces(line, &i + 2);
+            if ((map)->we != NULL)
+            {
+                printf("Error: Duplicate WE texture\n");
+                exit(1);
+            }
             map->we = ft_strdup(&line[i + 2]);
-            i += 2;
+            map->elm--;
+            return ;
         }
         else if (line[i] == 'E' && line[i + 1] == 'A')
         {
+            skip_spaces(line, &i + 2);
+            if ((map)->ea != NULL)
+            {
+                printf("Error: Duplicate EA texture\n");
+                exit(1);
+            }
             map->ea = ft_strdup(&line[i + 2]);
-            i += 2;
+            map->elm--;
+            return ;
         }
     }
 }
@@ -109,7 +144,7 @@ void    load_map(t_map *map, char *av)
     int     fd;
     char    *line;
     
-    fd = open(av[1], O_RDONLY);
+    fd = open(av, O_RDONLY);
     if (fd == -1)
     {
         printf("Error oppening file\n");
@@ -165,9 +200,14 @@ int    check_map(t_map *map)
 
 int main(int ac, char **av)
 {
-    int     j;
     t_map   *map;
     
+    map = (t_map *)malloc(sizeof(t_map));
+    if (!map)
+    {
+        printf("Error: Memory allocation failed\n");
+        return (1);
+    }
     init(map);
     if (ac != 2)
     {
