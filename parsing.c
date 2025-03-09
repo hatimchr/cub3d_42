@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/08 00:05:03 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:43:39 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,74 @@ int valid_walls(char *line)
         i++;
     }
     return (0);    
+}
+
+void    load_floor(t_map *map, char *line)
+{
+    int i;
+    
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (line[i] == 'F')
+        {
+            if (map->flr[0] != -1)
+                exit(printf("Error: Duplicate floor color\n"));
+            i++;
+            skip_spaces(line, &i);
+            if (line[i] != '\0')
+                map->flr[0] = ft_atoi(&line[i]);
+            i++;
+            if (line[i] == ',')
+            {
+                skip_spaces(line, &i);
+                map->flr[1] = ft_atoi(&line[i]);
+            }
+            i++;
+            if (line[i] == ',')
+            {
+                skip_spaces(line, &i);
+                map->flr[1] = ft_atoi(&line[i]);
+            }
+            map->elm--;
+            return ;
+        }
+        i++;
+    }
+}
+
+void    load_cealing(t_map *map, char *line)
+{
+    int i;
+    
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (line[i] == 'C')
+        {
+            if (map->flr[0] != -1)
+                exit(printf("Error: Duplicate cealing color\n"));
+            i++;
+            skip_spaces(line, &i);
+            if (line[i] != '\0')
+                map->flr[0] = ft_atoi(&line[i]);
+            i++;
+            if (line[i] == ',')
+            {
+                skip_spaces(line, &i);
+                map->flr[1] = ft_atoi(&line[i]);
+                i++;
+            }
+            if (line[i] == ',')
+            {
+                skip_spaces(line, &i);
+                map->flr[1] = ft_atoi(&line[i]);
+            }
+            map->elm--;
+            return ;
+        }
+        i++;
+    }
 }
 
 int	not_map(char *line)
@@ -134,6 +202,11 @@ void    load_textures(t_map *map, char *line)
             }
             map->ea = ft_strdup(&line[i + 2]);
             map->elm--;
+            return ;
+        }
+        else if (line[i] == 'F')
+        {
+            load_floor(map, line);
             return ;
         }
     }
