@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/11 16:41:50 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/12 23:35:06 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,18 +136,18 @@ void    load_cealing(t_map *map, char *line)
             i++;
             skip_spaces(line, &i);
             if (line[i] != '\0')
-                map->flr[0] = ft_atoi(&line[i]);
+                map->flr[0] = ft_atol(&line[i]);
             i++;
             if (line[i] == ',')
             {
                 skip_spaces(line, &i);
-                map->flr[1] = ft_atoi(&line[i]);
+                map->flr[1] = ft_atol(&line[i]);
                 i++;
             }
             if (line[i] == ',')
             {
                 skip_spaces(line, &i);
-                map->flr[1] = ft_atoi(&line[i]);
+                map->flr[1] = ft_atol(&line[i]);
             }
             map->elm--;
             return ;
@@ -301,6 +301,31 @@ int    check_map(t_map *map)
             return (1);
         }
     }
+    while (map->map[map->map_x] != NULL)
+    {
+        map->map_y = 0;
+        while (map->map[map->map_x][map->map_y] != '\0')
+        {
+            if (map->map[map->map_x][map->map_y] == '0'
+                || map->map[map->map_x][map->map_y] == 'N'
+                || map->map[map->map_x][map->map_y] == 'S'
+                || map->map[map->map_x][map->map_y] == 'E'
+                || map->map[map->map_x][map->map_y] == 'W')
+            {
+                if (map->map[map->map_x][map->map_y + 1] == ' ' 
+                    || map->map[map->map_x][map->map_y - 1] == ' ' 
+                    || map->map[map->map_x + 1][map->map_y] == ' ' 
+                    || map->map[map->map_x - 1][map->map_y] == ' ')
+                {
+                    printf("Error: element is touching space at x: %d y:%d\n", map->map_x, map->map_y);
+                    return (1);
+                }
+            }
+            map->map_y++;
+        }
+        map->map_x++;
+    }
+    printf("\033[0;32m Map is valid\n \033[0m");
     return (0);
 }
 
@@ -330,30 +355,4 @@ int main(int ac, char **av)
     // Check first and last columns
     // check 0 is not touching spaces
     map->map_x = 0;
-    while (map->map[map->map_x] != NULL)
-    {
-        map->map_y = 0;
-        while (map->map[map->map_x][map->map_y] != '\0')
-        {
-            if (map->map[map->map_x][map->map_y] == '0'
-                || map->map[map->map_x][map->map_y] == 'N'
-                || map->map[map->map_x][map->map_y] == 'S'
-                || map->map[map->map_x][map->map_y] == 'E'
-                || map->map[map->map_x][map->map_y] == 'W')
-            {
-                if (map->map[map->map_x][map->map_y + 1] == ' ' 
-                    || map->map[map->map_x][map->map_y - 1] == ' ' 
-                    || map->map[map->map_x + 1][map->map_y] == ' ' 
-                    || map->map[map->map_x - 1][map->map_y] == ' ')
-                {
-                    printf("Error: element is touching space at x: %d y:%d\n", map->map_x, map->map_y);
-                    return (1);
-                }
-            }
-            map->map_y++;
-        }
-        map->map_x++;
-    }
-    printf("\033[0;32m Map is valid\n \033[0m");
-    return (0);
 }
