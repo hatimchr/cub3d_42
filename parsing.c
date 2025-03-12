@@ -6,7 +6,7 @@
 /*   By: hchair <hchair@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:26:54 by hchair            #+#    #+#             */
-/*   Updated: 2025/03/09 16:43:39 by hchair           ###   ########.fr       */
+/*   Updated: 2025/03/11 16:41:50 by hchair           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,37 @@ int valid_walls(char *line)
     return (0);    
 }
 
+void    skip_spaces(char *line, int *i)
+{
+    while (line[*i] == ' ' || line[*i] == '\t' || line[*i] == '\v')
+        (*i)++;
+}
+
+long	ft_atol(const char *str)
+{
+	int		i;
+	long	res;
+	int		sign;
+
+	i = 0;
+	res = 0;
+	sign = 1;
+	while (str[i] <= 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res = res * 10 + str[i] - 48;
+		i++;
+	}
+	return (res * sign);
+}
+
 void    load_floor(t_map *map, char *line)
 {
     int i;
@@ -71,18 +102,18 @@ void    load_floor(t_map *map, char *line)
             i++;
             skip_spaces(line, &i);
             if (line[i] != '\0')
-                map->flr[0] = ft_atoi(&line[i]);
+                map->flr[0] = ft_atol(&line[i]);
             i++;
             if (line[i] == ',')
             {
                 skip_spaces(line, &i);
-                map->flr[1] = ft_atoi(&line[i]);
+                map->flr[1] = ft_atol(&line[i]);
             }
             i++;
             if (line[i] == ',')
             {
                 skip_spaces(line, &i);
-                map->flr[1] = ft_atoi(&line[i]);
+                map->flr[1] = ft_atol(&line[i]);
             }
             map->elm--;
             return ;
@@ -143,11 +174,6 @@ int	not_map(char *line)
 	return (1);
 }
 
-void    skip_spaces(char *line, int *i)
-{
-    while (line[*i] == ' ' || line[*i] == '\t' || line[*i] == '\v')
-        (*i)++;
-}
 
 void    load_textures(t_map *map, char *line)
 {
@@ -209,6 +235,11 @@ void    load_textures(t_map *map, char *line)
             load_floor(map, line);
             return ;
         }
+        else if (line[i] == 'C')
+        {
+            load_cealing(map, line);
+            return ;
+        }
     }
 }
 
@@ -229,12 +260,14 @@ void    load_map(t_map *map, char *av)
     {
         if (not_map(line) == 0)
             load_textures(map, line);
+        else
+            break;
+    }
         map->map[map->map_x] = ft_strdup(line);
         free(line);
         line = get_next_line(fd);
         map->map_x++;
-    }
-    map->map[map->map_x] = NULL;
+        map->map[map->map_x] = NULL;
     close(fd);
 }
 
